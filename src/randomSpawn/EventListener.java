@@ -33,14 +33,10 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event){
 	    Player player = event.getPlayer();
-	    //player.sendChat("debug: "+ ); //test code
 	    Random rnd = new Random();
 	    x = rnd.nextInt(rndspawn.maxRange);
 	    z = rnd.nextInt(rndspawn.maxRange);
 	    y = player.getLevel().getHeightMap(x, z) + 3;
-	    //y = 100
-	    //pos = new Location(x, y, z, player.getLevel());
-	    //player.teleportImmediate(pos);
 	    event.setRespawnPosition(new Position(x,y,z,player.getLevel()));
 	}
 	
