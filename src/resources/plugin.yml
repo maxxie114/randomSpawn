@@ -1,0 +1,8 @@
+#this plugin is made by maxxie114 as a test plugin
+
+name: randomSpawn
+main: randomSpawn.randomSpawn
+
+version: "1.0.0"
+api: ["1.0.6"]
+author: maxxie114
