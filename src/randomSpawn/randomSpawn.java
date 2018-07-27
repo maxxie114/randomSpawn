@@ -23,7 +23,6 @@ public class randomSpawn extends PluginBase{
 	public String maxRangeInStr;
 	public int rnge;
 	
-	//private EventListener event; 
 	@Override
 	public void onLoad() {
 		this.getLogger().info(TextFormat.GREEN + "randomSpawn is loaded!");
@@ -35,14 +34,7 @@ public class randomSpawn extends PluginBase{
 	public void onEnable() {
 		
 		this .getServer().getPluginManager().registerEvents(new EventListener(this), this);
-		this.getLogger().info(TextFormat.WHITE + "randomSpawn enabled!");
-		
-		
-		//this.getLogger().info(String.valueOf(this.getDataFolder().mkdirs()));
-		
-//		this.getServer().getScheduler().scheduleRepeatingTask(new BroadcastPluginTask(this), 200);
-		
-//		this.saveResource("test.txt");
+		this.getLogger().info(TextFormat.YELLOW + "randomSpawn enabled!");
 		
 		
   		Config config = new Config(
@@ -63,9 +55,6 @@ public class randomSpawn extends PluginBase{
   		
   		
   		maxRangeInStr = String.valueOf(config.get("spawnRange"));
-  		
-  		//this.getLogger().info(String.valueOf(getMaxRange(maxRangeInStr)));  //test code
-  		//this.getLogger().info("this is just a test");  //test code
   		config.save();
   		
   		setMaxRange(getMaxRange(maxRangeInStr));
@@ -76,10 +65,7 @@ public class randomSpawn extends PluginBase{
 	
 	
 	public int getMaxRange(String rangeInStr) {
-		//@SuppressWarnings("deprecation")
-		//Integer newInt = new Integer(maxRangeInStr);
 		int range = Integer.valueOf(rangeInStr);
-		
 		return range;
 	}
 	
@@ -90,7 +76,7 @@ public class randomSpawn extends PluginBase{
 	
 	
 	public void onDisable() {
-		this.getLogger().info("randomSpawn disabled!");
+		this.getLogger().info(TextFormat.RED + "randomSpawn disabled!");
 	}
 	
 
