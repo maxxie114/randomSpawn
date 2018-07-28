@@ -60,7 +60,7 @@ public class EventListener implements Listener {
 				event.setRespawnPosition(new Position(x, y, z, player.getLevel()));
 			}
 		} else {
-			/*Set isJoin to false so that players can be randomly teleported the after
+			/*Set isJoin to false so that players can be randomly teleported after
 			the first respawn event(playerJoin is the fist time)*/
 			isJoin = false;
 		}
