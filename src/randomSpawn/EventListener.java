@@ -44,10 +44,10 @@ public class EventListener implements Listener {
 	//When players Respawn
 	@EventHandler 
 	public void onRespawn(PlayerRespawnEvent event) {
-		//This if statement prevent all players from being teleported to random places 
+		//This if statement prevent all players from being teleported to random places when they join
 		if (!isJoin) {
 			Player player = event.getPlayer();
-			//This if statement prevent players with who has a spawnpoint set by a bed from losing their spawnpoint
+			//This if statement prevent players with a spawnpoint set by a bed from losing their spawnpoint
 			if (player.getSpawn().getX() == rndspawn.worldspawn.getX()
 					&& player.getSpawn().getZ() == rndspawn.worldspawn.getZ()) {
 				//Create a random number generator
