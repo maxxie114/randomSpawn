@@ -94,12 +94,18 @@ public class randomSpawn extends PluginBase{
 	}
 	
 	
-	//This method Convert String value rangeInStr to Int value
+	/**
+	* This method convert the maxRange in string to int
+	*@param rangeInStr   the string to be converted
+	*@return             the stirng got converted to an int and returned
+	*
+	*/
 	public int getMaxRange(String rangeInStr) {
 		//Integer newInt = new Integer(maxRangeInStr);
 		int range = Integer.valueOf(rangeInStr);
 		return range;
 	}
+
 	//This Set maxRange to the an Int value 
 	public void setMaxRange(int range) {
 		maxRange = range;

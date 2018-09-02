@@ -76,12 +76,14 @@ public class EventListener implements Listener{
 	//When players Respawn
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
+
 		Player player = event.getPlayer();
 		String name = player.getName();
 		//This if statement prevent all players from being teleported to random places 
 			//This if statement prevent players with who has a spawnpoint set by a bed from losing their spawnpoint
+
 			if (player.getSpawn().getX() == rndspawn.worldspawn.getX()
-					&& player.getSpawn().getZ() == rndspawn.worldspawn.getZ() && !isJoining.contains(name)){)) {
+					&& player.getSpawn().getZ() == rndspawn.worldspawn.getZ() && !isJoining.contains(name)) {
 				//Create a random number generator
 				Random rnd = new Random();
 				//define x, y, and z positions
@@ -92,8 +94,10 @@ public class EventListener implements Listener{
 				//set the random respawn positions
 				event.setRespawnPosition(new Position(x, y, z, player.getLevel()));
 			}
+
 			isJoining.remove(name);
 		
+
 	}
 
 	// @EventHandler
