@@ -13,6 +13,9 @@ This is a nukkit plugin I made that set random spawnpoint to players everytime t
 # TODO
 - Fix error: Unable to change the hashSet stored in playerList.yml
 
+# Attention
+randomSpawn 3.0.0 is in beta, there won't be a release just yet
+
 
 
 
