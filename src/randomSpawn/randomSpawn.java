@@ -39,7 +39,7 @@ public class randomSpawn extends PluginBase{
 	private Config config;
 	private Config list;
 	//When the plugin is loaded
-	//private EventListener event; 
+	
 	@Override
 	public void onLoad() {
 		this.getLogger().info(TextFormat.GREEN + "randomSpawn is loaded!");
@@ -52,22 +52,14 @@ public class randomSpawn extends PluginBase{
 		//register EventListener so it will work
 		this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
 		this.getLogger().info(TextFormat.YELLOW + "randomSpawn enabled!");
-		this.getLogger().info(TextFormat.RED + "Debug: randomSpawn3.0.0_Dev"); //test code
-		//this.getLogger().info(TextFormat.RED + "Debug: " + list.get("existingPlayers").toString());
 		//get the world spawn as a position object
 		worldspawn = this.getServer().getDefaultLevel().getSpawnLocation();
-		
-		//this.getLogger().info(String.valueOf(this.getDataFolder().mkdirs()));
-		
-//		this.getServer().getScheduler().scheduleRepeatingTask(new BroadcastPluginTask(this), 200);
-		
-//		this.saveResource("test.txt");
-		
+
 		//Create playerList.yml
 		this.list = new Config(new File(this.getDataFolder(), "playerList.yml"), Config.YAML);
 		
 		list.set("existingPlayers", playerList);
-		//config.save();
+		
 		//Create config.yml
   		this.config = new Config(
 				new File(this.getDataFolder(), "config.yml"),
@@ -89,14 +81,12 @@ public class randomSpawn extends PluginBase{
   		maxRangeInStr = String.valueOf(config.get("spawnRange"));
   		playerList = list.get("existingPlayers");
   		
-//  	this.getLogger().info(String.valueOf(getMaxRange(maxRangeInStr)));  //test code
-  		//this.getLogger().info("this is just a test");  //test code
+
   		//save config file
 		config.save();
 		list.save();
 		
-		this.getLogger().info(TextFormat.RED + "Debug: " + list.get("existingPlayers").toString()); //test code
-  		
+		
 		//set maxRange variable to the max range defined in config.yml
   		setMaxRange(getMaxRange(maxRangeInStr));
   		
