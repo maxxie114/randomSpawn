@@ -4,7 +4,7 @@ package randomSpawn;
  * 
  * Author: maxxie114
  * 
- * version: 2.0.0
+ * version: 3.0.0
  */
 
 //import all dependencies from nukkitx
@@ -33,13 +33,13 @@ public class EventListener implements Listener{
 	private int y;
 	private int z;
 	//private PluginBase base;
-	private HashSet<String> existingPlayers = new HashSet<String>(Arrays.asList(""));
 	private HashSet<String> isJoining = new HashSet<String>(Arrays.asList(""));
+	//HashSet<String> existingPlayers = new HashSet<String>();
+	//private boolean isJoin;
 	
 	//Constructor method
-	public EventListener(randomSpawn rndspawn) {
-		this.rndspawn = rndspawn;
-		rndspawn.playerList = existingPlayers;
+	public EventListener(randomSpawn randspawn) {
+		this.rndspawn = randspawn;
 	}
 	
 	//When player login
@@ -55,8 +55,8 @@ public class EventListener implements Listener{
 	public void onJoin(PlayerJoinEvent event) { 
 		Player player = event.getPlayer();
 		String name = player.getName();
-		if(!existingPlayers.contains(name)) {
-			this.existingPlayers.add(name);
+		if(!rndspawn.playerList.contains(name)) {
+			rndspawn.playerList.add(name);
 			//Random spawn should also occur to new players on join
 			Random rnd = new Random();
 			//define x, y, and z positions
@@ -64,41 +64,37 @@ public class EventListener implements Listener{
 			z = rnd.nextInt(rndspawn.maxRange) + 50;
 			y = player.getLevel().getHighestBlockAt(x, z) + 3;
 			
-		    
+
 			//set the random re-spawn positions
 			Location pos = new Location(x, y, z, player.getLevel());
 			event.getPlayer().teleport(pos);
 			
-			
 		}
+
 	}
 
-	//When players Respawn
-	@EventHandler
+	//When players Re-spawn
+	@EventHandler // (ignoreCancelled = false) //watch out
 	public void onRespawn(PlayerRespawnEvent event) {
-
 		Player player = event.getPlayer();
 		String name = player.getName();
 		//This if statement prevent all players from being teleported to random places 
 			//This if statement prevent players with who has a spawnpoint set by a bed from losing their spawnpoint
-
 			if (player.getSpawn().getX() == rndspawn.worldspawn.getX()
 					&& player.getSpawn().getZ() == rndspawn.worldspawn.getZ() && !isJoining.contains(name)) {
+
 				//Create a random number generator
 				Random rnd = new Random();
 				//define x, y, and z positions
 				x = rnd.nextInt(rndspawn.maxRange) + 50;
 				z = rnd.nextInt(rndspawn.maxRange) + 50;
 				y = player.getLevel().getHighestBlockAt(x, z) + 3;
-				
+
 				//set the random respawn positions
 				event.setRespawnPosition(new Position(x, y, z, player.getLevel()));
 			}
-
 			isJoining.remove(name);
-		
 
 	}
 
-	// @EventHandler
 }
