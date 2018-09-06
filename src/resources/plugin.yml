@@ -3,6 +3,6 @@
 name: randomSpawn
 main: randomSpawn.randomSpawn
 
-version: "3.0.0_Dev"
+version: "3.0.0"
 api: ["1.0.7"]
 author: maxxie114
