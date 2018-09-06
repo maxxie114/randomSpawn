@@ -2,14 +2,19 @@ package randomSpawn;
 /*
  * Description: This plugin randomly spawn players at different places with a range specified in config.yml
  * 
- * Version: 2.0.0
+ * Version: 3.0.0
  * 
  * Author: maxxie114
  */
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 //import all dependencies from java libraries
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 //import java.io.IOException;
@@ -34,16 +39,19 @@ public class randomSpawn extends PluginBase{
 	public int rnge;
 	public Position worldspawn;
 	public EventListener listener;
-	public Object playerList = new HashSet<String>(Arrays.asList(""));
+	public HashSet<String> playerList = new HashSet<String>(Arrays.asList(""));
 	//define private variables
 	private Config config;
-	private Config list;
+	private File file;
+	//private FileWriter name;
+	//private File information;
+	//private Config list;
 	//When the plugin is loaded
-	
+	//private EventListener event; 
 	@Override
 	public void onLoad() {
 		this.getLogger().info(TextFormat.GREEN + "randomSpawn is loaded!");
-		
+
 	}
 	//When the plugin is enabled
 	@SuppressWarnings({ "deprecation" })
@@ -52,19 +60,16 @@ public class randomSpawn extends PluginBase{
 		//register EventListener so it will work
 		this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
 		this.getLogger().info(TextFormat.YELLOW + "randomSpawn enabled!");
+
 		//get the world spawn as a position object
 		worldspawn = this.getServer().getDefaultLevel().getSpawnLocation();
 
-		//Create playerList.yml
-		this.list = new Config(new File(this.getDataFolder(), "playerList.yml"), Config.YAML);
-		
-		list.set("existingPlayers", playerList);
-		
+
 		//Create config.yml
-  		this.config = new Config(
+		this.config = new Config(
 				new File(this.getDataFolder(), "config.yml"),
- 				Config.YAML,
- 				
+				Config.YAML,
+
 				new LinkedHashMap<String, Object>(){
 					/**
 					 * 
@@ -76,55 +81,99 @@ public class randomSpawn extends PluginBase{
 						put("spawnRange","900");
 					}
 				});
-  		
-  		//get all info
-  		maxRangeInStr = String.valueOf(config.get("spawnRange"));
-  		playerList = list.get("existingPlayers");
-  		
 
-  		//save config file
+		//Create playerList.txt
+		file = new File("plugins/randomSpawn/playerlist.txt");
+		//Check if the parent directory exist, create it if not exist
+		if(!file.getParentFile().mkdir()) {
+			file.getParentFile().mkdir();
+		} 
+		//create the playerlist.txt
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//get all info
+		maxRangeInStr = String.valueOf(config.get("spawnRange"));
+		playerList = readPlayerList("plugins/randomSpawn/playerlist.txt");
+		
+
+		//save config file
 		config.save();
-		list.save();
-		
-		
+
+
 		//set maxRange variable to the max range defined in config.yml
-  		setMaxRange(getMaxRange(maxRangeInStr));
-  		
-		
+		setMaxRange(getMaxRange(maxRangeInStr));
+
+
 	}
-	
-	
-	/**
-	* This method convert the maxRange in string to int
-	*@param rangeInStr   the string to be converted
-	*@return             the stirng got converted to an int and returned
-	*
-	*/
+
+
+	//This method Convert String value rangeInStr to Int value
 	public int getMaxRange(String rangeInStr) {
-		//Integer newInt = new Integer(maxRangeInStr);
 		int range = Integer.valueOf(rangeInStr);
 		return range;
 	}
-
 	//This Set maxRange to the an Int value 
 	public void setMaxRange(int range) {
 		maxRange = range;
 	}
-	
-	//This function store a HashSet into a file
-	public void writePlayerList() {
-		//Create another yml file for existing player data
-		//list.set("existingPlayers", playerList);
-  		list.save();
+
+	//This function create an empty file
+	@Deprecated
+	public void createFile(String filename) {
+		try {
+			FileWriter writer = new FileWriter(filename);
+
+			BufferedWriter output = new BufferedWriter(writer);
+			output.write("");
+			output.newLine();
+			output.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	} 
+
+	//This function read the file line-by-line and store it into a HashSet
+	public HashSet<String> readPlayerList(String filename) {
+		HashSet<String> set = new HashSet<>();
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(filename));
+			String line;
+			while ((line = in.readLine()) != null) {
+				set.add(line);
+			}
+			in.close();
+			return set; 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return set;
 	}
-	
+
+	//Another function to store a HashSet into a file
+	public void writePlayerList(HashSet<String> set, String filename) {
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+			for (String s : set) {
+				out.write(s);
+				out.newLine();
+			}
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	//Action to do when plugin is disabled
 	public void onDisable() {
 		this.getLogger().info(TextFormat.RED + "randomSpawn disabled!");
-		this.getLogger().info(TextFormat.RED + "Debug: " + playerList.toString()); //test code
-		writePlayerList();
+		writePlayerList(playerList, "plugins/randomSpawn/playerlist.txt");
 	}
-	
+
 	//just for compile in eclipse
 	public static void main(String[] args) {
 		System.out.println("compiled");
