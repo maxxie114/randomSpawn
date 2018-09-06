@@ -16,10 +16,5 @@ This is a nukkit plugin I made that set random spawnpoint to players everytime t
 - Add support to avoid players from spawning on lava.
 - Fix error: Unable to random teleport players on first join
 
-# Attention
-randomSpawn 3.0.0 is in beta, there won't be a release just yet
-
-
-
 
 
